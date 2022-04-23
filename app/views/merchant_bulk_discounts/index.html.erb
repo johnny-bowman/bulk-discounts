@@ -2,7 +2,12 @@
 
 <ul>
   <% @merchant.bulk_discounts.each do |bd| %>
-    <li><strong>Percent Discount: </strong><%= bd.percent_discount %><br><strong>Quantity Threshold: </strong><%= bd.quantity_threshold %></li>
+    <li id=<%= bd.id %>><strong>Percent Discount: </strong><%= bd.percent_discount %>
+    <br>
+    <strong>Quantity Threshold: </strong><%= bd.quantity_threshold %>
+    <br>
+    <%= link_to "View This Discount", "/merchants/#{@merchant.id}/bulk_discounts/#{bd.id}", method: :get, local: true %>
+    </li>
     <br>
   <% end %>
 </ul>
