@@ -214,7 +214,7 @@ describe "merchant dashboard page" do
     transaction_13 = invoice_13.transactions.create!(credit_card_number: 4023948573948293, result: "success")
 
     visit "/merchants/#{merch_1.id}/dashboard"
-    
+
     expect("Name: Debbie Twolegs").to appear_before("Name: Tommy Doubleleg")
     expect("Name: Tommy Doubleleg").to appear_before("Name: Brian Twinlegs")
     expect("Name: Brian Twinlegs").to appear_before("Name: Jared Goffleg")
@@ -226,5 +226,11 @@ describe "merchant dashboard page" do
     within "##{cust_3.id}" do
       expect(page).to have_content("Successful Transactions: 4")
     end
+  end
+
+  it "has a link to bulk discounts index page" do
+    click_link("Bulk Discounts")
+
+    expect(current_path).to eq("/merchants/#{@merchant_1.id}/bulk_discounts")
   end
 end
