@@ -15,10 +15,20 @@ RSpec.describe "BulkDiscounts index page" do
   end
 
   it "displays all bulk discounts for merchant" do
-    expect(page).to have_content("Percent Discount: 20Quantity Threshold: 10")
-    expect(page).to have_content("Percent Discount: 30Quantity Threshold: 15")
-    expect(page).to have_content("Percent Discount: 40Quantity Threshold: 20")
+    # save_and_open_page
+    expect(page).to have_content("Percent Discount: 20 Quantity Threshold: 10")
+    expect(page).to have_content("Percent Discount: 30 Quantity Threshold: 15")
+    expect(page).to have_content("Percent Discount: 40 Quantity Threshold: 20")
 
-    expect(page).to_not have_content("Percent Discount: 50Quantity Threshold: 50")
+    expect(page).to_not have_content("Percent Discount: 50 Quantity Threshold: 50")
+  end
+
+  it "has links to each discount show page" do
+    within("##{@bd_1.id}") do
+      click_link("View This Discount")
+
+      expect(current_path).to eq("/merchants/#{@merch_1.id}/bulk_discounts/#{@bd_1.id}")
+      save_and_open_page
+    end
   end
 end
