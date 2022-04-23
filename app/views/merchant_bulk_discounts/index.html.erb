@@ -1,5 +1,7 @@
 <h1>Bulk Discounts at <%= @merchant.name %></h1>
 
+<h3><%= link_to "Create New Discount", "/merchants/#{@merchant.id}/bulk_discounts/new", method: :get, local: true %></h3>
+
 <ul>
   <% @merchant.bulk_discounts.each do |bd| %>
     <li id=<%= bd.id %>><strong>Percent Discount: </strong><%= bd.percent_discount %>
