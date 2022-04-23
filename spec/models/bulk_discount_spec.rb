@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe BulkDiscount do
   before :each do
     @merch_1 = Merchant.create!(name: "Two-Legs Fashion")
-    
+
     @bd_1 = @merch_1.bulk_discounts.create!(percent_discount: 20, quantity_threshold: 10)
   end
 
