@@ -8,8 +8,8 @@ RSpec.describe "BulkDiscounts edit page" do
   end
 
   it "edits a bulk discount" do
-    visit "/merchants/#{@merch_1.id}/bulk_discounts/#{@bd_1.id}?merchant_id=#{@merch_1.id}"
-    
+    visit "/bulk_discounts/#{@bd_1.id}"
+
     expect(page).to have_content("Percent Discount: 20\nQuantity Threshold: 10")
     expect(page).to_not have_content("Percent Discount: 24\nQuantity Threshold: 13")
 
@@ -19,7 +19,7 @@ RSpec.describe "BulkDiscounts edit page" do
     fill_in "Quantity threshold", with: 13
     click_button "Update Bulk Discount"
 
-    expect(current_path).to eq("/merchants/#{@merch_1.id}/bulk_discounts/#{@bd_1.id}")
+    expect(current_path).to eq("/bulk_discounts/#{@bd_1.id}")
 
     expect(page).to have_content("Percent Discount: 24\nQuantity Threshold: 13")
     expect(page).to_not have_content("Percent Discount: 20\nQuantity Threshold: 10")

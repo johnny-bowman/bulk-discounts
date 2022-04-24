@@ -11,7 +11,7 @@ RSpec.describe "BulkDiscounts show page" do
 
     @bd_4 = @merch_2.bulk_discounts.create!(percent_discount: 50, quantity_threshold: 25)
 
-    visit "/merchants/#{@merch_1.id}/bulk_discounts/#{@bd_1.id}?merchant_id=#{@merch_1.id}"
+    visit "/bulk_discounts/#{@bd_1.id}"
   end
 
   it "displays discount quantity_threshold and percent_discount" do
@@ -21,6 +21,6 @@ RSpec.describe "BulkDiscounts show page" do
   it "has link to edit discount" do
     click_link("Edit Discount")
 
-    expect(current_path).to eq("/merchants/#{@merch_1.id}/bulk_discounts/#{@bd_1.id}/edit")
+    expect(current_path).to eq("/bulk_discounts/#{@bd_1.id}/edit")
   end
 end
