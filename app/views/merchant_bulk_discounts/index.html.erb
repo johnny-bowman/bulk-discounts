@@ -9,6 +9,8 @@
     <strong>Quantity Threshold: </strong><%= bd.quantity_threshold %>
     <br>
     <%= link_to "View This Discount", "/merchants/#{@merchant.id}/bulk_discounts/#{bd.id}", method: :get, local: true %>
+    <br>
+    <%= link_to "Delete This Discount", "/merchants/#{@merchant.id}/bulk_discounts/#{bd.id}?merchant_id=#{@merchant.id}", method: :delete, local: true %>
     </li>
     <br>
   <% end %>
