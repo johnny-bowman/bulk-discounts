@@ -25,11 +25,11 @@ Rails.application.routes.draw do
   get "/admin/merchants/:id/edit", to: "admin/merchants#edit"
   post "/admin/merchants/create", to: "admin/merchants#create"
 
-  get "/merchants/:id/bulk_discounts", to: "merchant_bulk_discounts#index"
-  get "/merchants/:id/bulk_discounts/new", to: "merchant_bulk_discounts#new"
-  get "/merchants/:id/bulk_discounts/:id", to: "merchant_bulk_discounts#show"
-  post "/merchants/:id/bulk_discounts", to: "merchant_bulk_discounts#create"
-  delete "/merchants/:id/bulk_discounts/:id", to: "merchant_bulk_discounts#delete"
-  get "/merchants/:id/bulk_discounts/:id/edit", to: "merchant_bulk_discounts#edit"
-  patch "/merchants/:id/bulk_discounts/:id", to: "merchant_bulk_discounts#update"
+  get "/merchants/:id/bulk_discounts", to: "bulk_discounts#index"
+  get "/merchants/:id/bulk_discounts/new", to: "bulk_discounts#new"
+  get "/bulk_discounts/:id", to: "bulk_discounts#show"
+  post "/merchants/:id/bulk_discounts", to: "bulk_discounts#create"
+  delete "/merchants/:id/bulk_discounts/:id", to: "bulk_discounts#delete"
+  get "/bulk_discounts/:id/edit", to: "bulk_discounts#edit"
+  patch "/bulk_discounts/:id", to: "bulk_discounts#update"
 end

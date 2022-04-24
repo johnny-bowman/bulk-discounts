@@ -1,10 +1,8 @@
-<%= form_with url: "/merchants/#{@merchant.id}/bulk_discounts/#{@bd.id}", method: :patch do |f|%>
+<%= form_with url: "/bulk_discounts/#{@bd.id}", method: :patch do |f|%>
   <%= f.label :percent_discount %>
   <%= f.number_field :percent_discount, value: @bd.percent_discount %>
   <%= f.label :quantity_threshold %>
   <%= f.number_field :quantity_threshold, value: @bd.quantity_threshold %>
-
-  <%= f.hidden_field :merchant_id, value: "#{@merchant.id}" %>
 
   <%= f.submit "Update Bulk Discount" %>
 <% end %>
