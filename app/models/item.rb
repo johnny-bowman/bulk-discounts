@@ -7,6 +7,7 @@ class Item < ApplicationRecord
   has_many :invoices, through: :invoice_items
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
+  has_many :bulk_discounts, through: :merchant
 
 
   belongs_to :merchant
@@ -22,6 +23,6 @@ class Item < ApplicationRecord
       .group("invoices.created_at")
       .order("total_rev")
       .first
-      .created_at  
+      .created_at
   end
 end

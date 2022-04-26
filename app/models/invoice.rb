@@ -4,6 +4,7 @@ class Invoice < ApplicationRecord
   has_many :invoice_items
   has_many :items, through: :invoice_items
   has_many :merchants, through: :items
+  has_many :bulk_discounts, through: :merchants
   has_many :transactions
   belongs_to :customer
 
@@ -14,6 +15,17 @@ class Invoice < ApplicationRecord
       .group(:invoice_id)
       .sum("invoice_items.unit_price * invoice_items.quantity")
     total[id] / 100.0
+  end
+
+  def discounted_rev
+    discount = invoice_items.joins(:bulk_discounts)
+      .select("invoice_items.id, max(invoice_items.unit_price * invoice_items.quantity * (bulk_discounts.percent_discount / 100.0)) as total_discount")
+      .where("invoice_items.quantity >= bulk_discounts.quantity_threshold")
+      .group("invoice_items.id")
+      .order(total_discount: :desc)
+      .sum(&:total_discount)
+
+    self.invoice_total - (discount.to_f / 100)
   end
 
   def has_items_not_shipped
