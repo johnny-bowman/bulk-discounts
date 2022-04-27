@@ -79,6 +79,10 @@ describe "invoice show page" do
       result: "failed"
     )
 
+    @bd_1 = @merchant_1.bulk_discounts.create!(percent_discount: 20, quantity_threshold: 50)
+    @bd_2 = @merchant_1.bulk_discounts.create!(percent_discount: 30, quantity_threshold: 60)
+    @bd_3 = @merchant_1.bulk_discounts.create!(percent_discount: 40, quantity_threshold: 70)
+
     visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}"
   end
 
@@ -112,6 +116,12 @@ describe "invoice show page" do
   it "displays the total revenue to be made by all items on the invoice", :vcr do
     within("#total_revenue") do
       expect(page).to have_content("Total: $5320.0")
+    end
+  end
+
+  it "displays the total revenue to be made after bulk discounts", :vcr do
+    within("#total_discount_revenue") do
+      expect(page).to have_content("Total After Bulk Discounts: $4320.0")
     end
   end
 

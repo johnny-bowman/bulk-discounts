@@ -111,8 +111,8 @@ RSpec.describe Invoice do
         expect(@invoice_2.discounted_rev).to eq(96000) # 500 soccer balls @ $320 each, 40% off
       end
 
-      xit "finds discounted total of specific items" do
-
+      it "returns discounts applied to invoice" do
+        expect(@invoice_1.applied_discounts).to eq(@bd_1)
       end
 
       it "determines if there are any unshipped invoice items" do
