@@ -28,6 +28,14 @@ class Invoice < ApplicationRecord
     self.invoice_total - (discount.to_f / 100)
   end
 
+  def applied_discounts_ids
+    invoice_items.joins(:bulk_discounts)
+      .select("bulk_discounts.id, max(invoice_items.unit_price * invoice_items.quantity * (bulk_discounts.percent_discount / 100.0)) as total_discount")
+      .where("invoice_items.quantity >= bulk_discounts.quantity_threshold")
+      .group("bulk_discounts.id")
+      .map(&:id)
+  end
+
   def has_items_not_shipped
     invoice_items.where.not(status: 2).empty?
   end
