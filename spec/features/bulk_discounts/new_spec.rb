@@ -22,8 +22,14 @@ RSpec.describe "BulkDiscounts new page" do
     click_button "Create Bulk Discount"
 
     expect(current_path).to eq("/merchants/#{@merch_1.id}/bulk_discounts")
-    
+
     expect(page).to have_content("Percent Discount: 20 Quantity Threshold: 10")
     expect(page).to have_content("Percent Discount: 27 Quantity Threshold: 8")
+    
+    visit "/merchants/#{@merch_1.id}/bulk_discounts/new"
+
+    click_button "Create Bulk Discount"
+
+    expect(current_path).to eq("/merchants/#{@merch_1.id}/bulk_discounts/new")
   end
 end

@@ -79,6 +79,10 @@ describe "invoice show page" do
       result: "failed"
     )
 
+    @bd_1 = @merchant_1.bulk_discounts.create!(percent_discount: 20, quantity_threshold: 50)
+    @bd_2 = @merchant_1.bulk_discounts.create!(percent_discount: 30, quantity_threshold: 60)
+    @bd_3 = @merchant_1.bulk_discounts.create!(percent_discount: 40, quantity_threshold: 70)
+
     visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}"
   end
 
@@ -115,6 +119,12 @@ describe "invoice show page" do
     end
   end
 
+  it "displays the total revenue to be made after bulk discounts", :vcr do
+    within("#total_discount_revenue") do
+      expect(page).to have_content("Total After Bulk Discounts: $4320.0")
+    end
+  end
+
   it "invoice item statuses are select fields", :vcr do
     within("#ii-#{@invoice_item_1.id}") do
       expect(find("form")).to have_content("pending packaged shipped")
@@ -129,5 +139,16 @@ describe "invoice show page" do
       expect(page).to_not have_content("Status: packaged")
       expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}")
     end
+  end
+
+  it "has links to applied discount show pages" do
+    within("#ii-#{@invoice_item_1.id}") do
+      expect(page).to have_content("No Discounts For This Item")
+    end
+    within("#ii-#{@invoice_item_2.id}") do
+      click_link("View Bulk Discounts for This Item")
+    end
+
+    expect(current_path).to eq("/bulk_discounts/#{@bd_1.id}")
   end
 end

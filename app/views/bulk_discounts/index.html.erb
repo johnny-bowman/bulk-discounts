@@ -15,3 +15,12 @@
     <br>
   <% end %>
 </ul>
+
+<div id="holidays">
+  <h2>Holidays Coming Up:</h2>
+  <ul>
+    <% @holidays[0..2].each do |h| %>
+      <li><%= h.name %>: <%= h.date %></li>
+    <% end %>
+  </ul>
+</div>

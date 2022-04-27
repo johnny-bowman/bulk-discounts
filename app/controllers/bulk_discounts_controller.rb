@@ -1,6 +1,7 @@
 class BulkDiscountsController < ApplicationController
   def index
     @merchant = Merchant.find(params[:id])
+    @holidays = HolidayFacade.create_holidays
   end
 
   def show
@@ -13,12 +14,12 @@ class BulkDiscountsController < ApplicationController
 
   def create
     @merchant = Merchant.find(params[:merchant_id])
-    bd = @merchant.bulk_discounts.create!(discount_params)
+    bd = @merchant.bulk_discounts.create(discount_params)
 
     if bd.save
       redirect_to "/merchants/#{@merchant.id}/bulk_discounts"
     else
-      redirect_to "/merchants/#{@merch_1.id}/bulk_discounts/new"
+      redirect_to "/merchants/#{@merchant.id}/bulk_discounts/new"
     end
   end
 

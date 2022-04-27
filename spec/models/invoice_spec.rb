@@ -15,65 +15,45 @@ RSpec.describe Invoice do
     before :each do
       @merchant_1 = Merchant.create!(
         name: "Store Store",
-        created_at: Date.current,
-        updated_at: Date.current
       )
       @merchant_2 = Merchant.create!(
         name: "Erots",
-        created_at: Date.current,
-        updated_at: Date.current
       )
 
       @cup = @merchant_1.items.create!(
         name: "Cup",
         description: "What the **** is this thing?",
         unit_price: 10000,
-        created_at: Date.current,
-        updated_at: Date.current
       )
       @soccer = @merchant_1.items.create!(
         name: "Soccer Ball",
         description: "A ball of pure soccer.",
         unit_price: 32000,
-        created_at: Date.current,
-        updated_at: Date.current
       )
 
       @beer = @merchant_2.items.create!(
         name: "Beer",
         description: "Happiness <3",
         unit_price: 100,
-        created_at: Date.current,
-        updated_at: Date.current
       )
 
       @customer_1 = Customer.create!(
         first_name: "Malcolm",
         last_name: "Jordan",
-        created_at: Date.current,
-        updated_at: Date.current
       )
       @customer_2 = Customer.create!(
         first_name: "Jimmy",
         last_name: "Felony",
-        created_at: Date.current,
-        updated_at: Date.current
       )
 
       @invoice_1 = @customer_1.invoices.create!(
-        status: 1,
-        created_at: Date.new(2020, 12, 12),
-        updated_at: Date.current
+        status: 1
       )
       @invoice_2 = @customer_1.invoices.create!(
-        status: 2,
-        created_at: Date.new(2021, 12, 12),
-        updated_at: Date.current
+        status: 2
       )
       @invoice_3 = @customer_2.invoices.create!(
-        status: 0,
-        created_at: Date.new(1999, 12, 12),
-        updated_at: Date.current
+        status: 0
       )
 
       @invoice_item_1 = InvoiceItem.create!(
@@ -81,27 +61,21 @@ RSpec.describe Invoice do
         invoice_id: @invoice_1.id,
         quantity: 1,
         unit_price: @soccer.unit_price,
-        status: 1,
-        created_at: Date.current,
-        updated_at: Date.current
+        status: 1
       )
       @invoice_item_2 = InvoiceItem.create!(
         item_id: @cup.id,
         invoice_id: @invoice_1.id,
         quantity: 50,
         unit_price: @cup.unit_price,
-        status: 1,
-        created_at: Date.current,
-        updated_at: Date.current
+        status: 1
       )
       @invoice_item_3 = InvoiceItem.create!(
         item_id: @soccer.id,
         invoice_id: @invoice_2.id,
         quantity: 500,
         unit_price: @soccer.unit_price,
-        status: 0,
-        created_at: Date.current,
-        updated_at: Date.current
+        status: 0
       )
 
       @invoice_item_4 = InvoiceItem.create!(
@@ -109,9 +83,7 @@ RSpec.describe Invoice do
         invoice_id: @invoice_3.id,
         quantity: 2,
         unit_price: @beer.unit_price,
-        status: 2,
-        created_at: Date.current,
-        updated_at: Date.current
+        status: 2
       )
 
       @transaction_1 = @invoice_1.transactions.create!(
@@ -122,11 +94,21 @@ RSpec.describe Invoice do
         credit_card_number: "4654405418249632",
         result: "failed"
       )
+
+      @bd_1 = @merchant_1.bulk_discounts.create!(percent_discount: 20, quantity_threshold: 50)
+      @bd_2 = @merchant_1.bulk_discounts.create!(percent_discount: 30, quantity_threshold: 60)
+      @bd_3 = @merchant_1.bulk_discounts.create!(percent_discount: 40, quantity_threshold: 70)
     end
 
     describe "-instance" do
       it "calculates the total value for an invoice" do
         expect(@invoice_1.invoice_total).to eq(5320.0)
+      end
+
+      it "calculates total revenue for invoice with discounts" do
+        expect(@invoice_1.discounted_rev).to eq(4320) # 50 cups @ $100 each, 20% off
+
+        expect(@invoice_2.discounted_rev).to eq(96000) # 500 soccer balls @ $320 each, 40% off
       end
 
       it "determines if there are any unshipped invoice items" do
@@ -137,7 +119,7 @@ RSpec.describe Invoice do
 
     describe "-class" do
       it "orders invoices by oldest to newest" do
-        expect(Invoice.oldest_first).to eq([@invoice_3, @invoice_1, @invoice_2])
+        expect(Invoice.oldest_first).to eq([@invoice_1, @invoice_2, @invoice_3])
       end
     end
   end

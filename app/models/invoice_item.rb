@@ -9,6 +9,14 @@ class InvoiceItem < ApplicationRecord
   belongs_to :invoice
 
   has_one :merchant, through: :item
+  has_many :bulk_discounts, through: :item
 
   enum status: {"pending" => 0, "packaged" => 1, "shipped" => 2}
+
+  def applied_discounts
+    bulk_discounts
+      .where("quantity_threshold <= ?", quantity)
+      .order(:percent_discount)
+      .last
+  end
 end

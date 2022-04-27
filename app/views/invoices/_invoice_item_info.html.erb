@@ -27,9 +27,19 @@
       <%= f.submit "Update" %>
       <% end %>
     </p>
+
+    <% if !ii.applied_discounts.nil? %>
+      <p><%= link_to "View Bulk Discounts for This Item", "/bulk_discounts/#{ii.applied_discounts.id}", method: :get, local: true%></p>
+    <% else %>
+      <p>No Discounts For This Item</p>
+    <% end %>
   </div>
 <% end %>
 
 <div id="total_revenue">
   <h1> Total: $<%= @invoice.invoice_total %> </h1>
+</div>
+
+<div id="total_discount_revenue">
+  <h1> Total After Bulk Discounts: $<%= @invoice.discounted_rev %> </h1>
 </div>
