@@ -140,4 +140,15 @@ describe "invoice show page" do
       expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}")
     end
   end
+
+  it "has links to applied discount show pages" do
+    within("#ii-#{@invoice_item_1.id}") do
+      expect(page).to have_content("No Discounts For This Item")
+    end
+    within("#ii-#{@invoice_item_2.id}") do
+      click_link("View Bulk Discounts for This Item")
+    end
+
+    expect(current_path).to eq("/bulk_discounts/#{@bd_1.id}")
+  end
 end

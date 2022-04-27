@@ -27,6 +27,12 @@
       <%= f.submit "Update" %>
       <% end %>
     </p>
+
+    <% if !ii.applied_discounts.nil? %>
+      <p><%= link_to "View Bulk Discounts for This Item", "/bulk_discounts/#{ii.applied_discounts.id}", method: :get, local: true%></p>
+    <% else %>
+      <p>No Discounts For This Item</p>
+    <% end %>
   </div>
 <% end %>
 
