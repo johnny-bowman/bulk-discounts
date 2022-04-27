@@ -46,4 +46,12 @@ RSpec.describe "BulkDiscounts index page" do
     expect(current_path).to eq("/merchants/#{@merch_1.id}/bulk_discounts")
     expect(page).to_not have_content("Percent Discount: 20 Quantity Threshold: 10")
   end
+
+  it "lists next three public holidays" do
+    within("#holidays") do
+      expect(page).to have_content("Memorial Day: 2022-05-30")
+      expect(page).to have_content("Juneteenth: 2022-06-20")
+      expect(page).to have_content("Independence Day: 2022-07-04")
+    end
+  end
 end
