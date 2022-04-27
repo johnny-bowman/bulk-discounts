@@ -112,7 +112,7 @@ RSpec.describe Invoice do
       end
 
       it "returns discounts applied to invoice" do
-        expect(@invoice_1.applied_discounts).to eq(@bd_1)
+        expect(@invoice_1.applied_discounts_ids).to eq([@bd_1.id])
       end
 
       it "determines if there are any unshipped invoice items" do
